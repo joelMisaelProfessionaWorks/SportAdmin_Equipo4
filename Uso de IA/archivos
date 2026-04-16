@@ -1,1 +1,58 @@
+PROMPT USADO: Necesito crear una tabla HTML para mostrar la tabla de posiciones de un torneo 
+de fútbol. Debe tener columnas para: posición, equipo, partidos jugados, 
+victorias, empates, derrotas, puntos, goles a favor y goles en contra. 
+¿Cómo la estructuro?
+Respuesta I.A.
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Equipo</th>
+      <th>PJ</th>
+      <th>V</th>
+      <th>E</th>
+      <th>D</th>
+      <th>PTS</th>
+      <th>Goles a favor</th>
+      <th>Goles en contra</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Datos de equipos -->
+  </tbody>
+</table>
 
+PROMPT USADO: Necesito ayuda para mejorar el diseño visual de las interfaces de mi proyecto 
+de gestión deportiva. Quiero que tenga un ambiente futbolero con colores verde 
+y tonos deportivos. ¿Qué paleta de colores me recomiendas y cómo puedo hacer 
+que se vea más profesional?
+
+Respuesta I.A.
+Para un proyecto deportivo te recomiendo usar:
+- Verde pasto (#2ecc71, #27ae60) como color principal
+- Negro (#111) para contraste y elementos importantes
+- Blanco para textos y fondos secundarios
+- Amarillo arbitro (#f39c12) para alertas
+
+Para el ambiente futbolero puedes agregar:
+- Fondo con patrón de pasto rayado
+- Siluetas de jugadores y balones como decoración
+- Tipografía deportiva como "Bebas Neue"
+- Bordes redondeados y sombras para profundidad
+
+PROMPT USADO: Quiero agregar elementos decorativos de fútbol (balón y silueta de jugador) 
+a mis interfaces usando SVG. ¿Cómo puedo hacerlos semi-transparentes para 
+que no distraigan del contenido principal?
+
+Respuesta I.A.
+.ball, .player {
+  position: absolute;
+  opacity: 0.2;  /* Semi-transparente */
+  pointer-events: none;  /* No interfiere con clicks */
+}
+
+.ball {
+  left: 20px;
+  bottom: 20px;
+  width: 100px;
+}
