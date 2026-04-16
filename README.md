@@ -25,13 +25,6 @@ La aplicación permitirá:
 
 El desarrollo del sistema se realizará siguiendo la **metodología RUP**, permitiendo avanzar de manera iterativa e incremental, asegurando que cada módulo cumpla con las necesidades del club.
 
----
-
-## Arquitectura del Sistema
-
-![Arquitectura del sistema](./arquitectura.png)
-
----
 
 ## Tecnologías Utilizadas
 
