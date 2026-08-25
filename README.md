@@ -63,11 +63,10 @@ El sistema está basado en una arquitectura de 3 capas:
 ---
 
 ## Integrantes
-
-- Maximiliano Gonzalez Villanueva  
-- Oscar Daniel Martínez Aguirre  
+ 
 - Jesús de Santiago Martínez
 - Joel Misael Lejia de la Rosa
+- Michelle Peña Flores
 
 ## 5. Resumen de la Pila Tecnológica (Tech Stack)
 
