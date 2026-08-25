@@ -68,3 +68,25 @@ El sistema está basado en una arquitectura de 3 capas:
 - Oscar Daniel Martínez Aguirre  
 - Jesús de Santiago Martínez
 - Joel Misael Lejia de la Rosa
+
+## 5. Resumen de la Pila Tecnológica (Tech Stack)
+
+### Ficha Técnica del Proyecto
+
+| Componente | Herramienta / Tecnología | Versión | Propósito en el Proyecto |
+| :--- | :--- | :--- | :--- |
+| **Backend** | PHP | `8.2` | Lógica de negocio, consumo de APIs JSON, sesiones y autenticación segura con BCrypt |
+| **Base de Datos** | MySQL | `8.0` (`8.0.46`) | Almacenamiento relacional (InnoDB, utf8mb4) para usuarios, equipos, roles, partidos y pagos |
+| **Servidor Web** | Apache HTTP Server | `2.4` | Servidor web con módulo `mod_rewrite` habilitado |
+| **Contenedores** | Docker & Docker Compose | `Compose 3.8` | Orquestación del entorno web y base de datos con volúmenes persistentes |
+| **Exportación PDF** | jsPDF | `2.5.1` | Generación e impresión de tickets de pago y recibos de inscripción |
+| **Exportación PDF** | html2pdf.js | `0.10.1` | Conversión y descarga de tablas HTML a documentos PDF (Roles y Posiciones) |
+| **Tipografías** | Google Fonts | Web API | Fuentes deportivas: *Bebas Neue* (títulos/marcadores) y *Rajdhani* (datos/tablas) |
+| **Frontend** | HTML5 / CSS3 / JavaScript | ES6+ | Interfaz reactiva personalizada (Glassmorphism, SVG vectorial) y consumo asíncrono vía Fetch API |
+| **Sistema Operativo** | Windows / Linux Container | Win64 / Alpine | Entorno de desarrollo nativo en Windows 64-bit y despliegue en contenedores Linux |
+
+### Detalle de Módulos y Arquitectura
+
+* **Patrón de Arquitectura:** Cliente-Servidor desacoplado mediante APIs RESTful en JSON.
+* **Seguridad:** Encriptación de credenciales mediante `password_hash()` (algoritmo BCRYPT) y sentencias preparadas PDO contra inyecciones SQL.
+* **Persistencia:** Base de datos relacional con integridad referencial (`CASCADE` / `RESTRICT`).
