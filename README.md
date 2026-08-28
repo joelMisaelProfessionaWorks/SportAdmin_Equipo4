@@ -68,7 +68,7 @@ El sistema está basado en una arquitectura de 3 capas:
 - Joel Misael Lejia de la Rosa
 - Michelle Peña Flores
 
-## 5. Resumen de la Pila Tecnológica (Tech Stack)
+##  Resumen de la Pila Tecnológica (Tech Stack)
 
 ### Ficha Técnica del Proyecto
 
@@ -89,3 +89,5 @@ El sistema está basado en una arquitectura de 3 capas:
 * **Patrón de Arquitectura:** Cliente-Servidor desacoplado mediante APIs RESTful en JSON.
 * **Seguridad:** Encriptación de credenciales mediante `password_hash()` (algoritmo BCRYPT) y sentencias preparadas PDO contra inyecciones SQL.
 * **Persistencia:** Base de datos relacional con integridad referencial (`CASCADE` / `RESTRICT`).
+
+
