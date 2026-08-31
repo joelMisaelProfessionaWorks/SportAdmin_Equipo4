@@ -33,7 +33,7 @@ Si quieres ver esto en acción, revisa los archivos login_futbolero.html y valid
 
 Para mantener el código limpio y seguro, todos seguimos estas reglas:
 
-Cero inyecciones SQL: Nunca concatenes variables directo en los queries. Todos usamos PDO con consultas preparadas (prepare y execute).
-Estándar de respuestas: Todo endpoint de PHP tiene que escupir un JSON con esta estructura exacta: {"success": true/false, "mensaje": "..."}.
-Passwords seguros: Las contraseñas en PHP no se guardan en texto plano. Se encriptan con password_hash() y se validan con password_verify().
-Try-catch en todo: Si tu PHP hace una transacción o query complejo en la base de datos, mételo en un bloque try-catch para que si algo truena, podamos mandar un mensaje de error limpio en el JSON y no se caiga el front.
+Prevención de inyecciones SQL: Queda prohibida la concatenación directa de variables en las consultas. El estándar del proyecto es utilizar PDO con sentencias preparadas (prepare y execute).
+Estándar de respuestas: Todo endpoint de PHP debe retornar siempre un JSON con esta estructura exacta: {"success": true/false, "mensaje": "..."}.
+Seguridad de contraseñas: Las contraseñas no se almacenan en texto plano bajo ninguna circunstancia. Es obligatorio encriptarlas utilizando password_hash() y validarlas con password_verify().
+Manejo de errores (Try-catch): Si un archivo PHP realiza una transacción o consulta compleja en la base de datos, debe ir dentro de un bloque try-catch. Así, si ocurre un error en el servidor, se puede devolver un mensaje de error controlado en el JSON evitando que la aplicación falle visualmente.
