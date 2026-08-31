@@ -82,7 +82,7 @@ El sistema está basado en una arquitectura de 3 capas:
 | **Exportación PDF** | html2pdf.js | `0.10.1` | Conversión y descarga de tablas HTML a documentos PDF (Roles y Posiciones) |
 | **Tipografías** | Google Fonts | Web API | Fuentes deportivas: *Bebas Neue* (títulos/marcadores) y *Rajdhani* (datos/tablas) |
 | **Frontend** | HTML5 / CSS3 / JavaScript | ES6+ | Interfaz reactiva personalizada (Glassmorphism, SVG vectorial) y consumo asíncrono vía Fetch API |
-| **Sistema Operativo** | Windows / Linux Container | Win64 / Alpine | Entorno de desarrollo nativo en Windows 64-bit y despliegue en contenedores Linux |
+| **Sistema Operativo** | Windows / Linux Container | Win64 / Debian | Entorno de desarrollo nativo en Windows 64-bit y despliegue en contenedores Linux |
 
 ### Detalle de Módulos y Arquitectura
 
