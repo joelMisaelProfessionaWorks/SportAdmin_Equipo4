@@ -18,8 +18,8 @@ Si usas Docker (te lo recomiendo para no batallar):
 
 Abre tu terminal en la carpeta del proyecto.
 Corre: docker-compose up -d
-Entra a http://localhost:8080. La base de datos queda en el puerto 3307 por si te quieres conectar con DBeaver o algo así.
-Si usas XAMPP (vieja escuela):
+Entra a http://localhost:8080. La base de datos queda en el puerto 3307.
+Si usas XAMPP:
 
 Mete la carpeta del proyecto en htdocs.
 Abre phpMyAdmin, crea una base de datos que se llame club_leon y córrerle el script init.sql a mano.
