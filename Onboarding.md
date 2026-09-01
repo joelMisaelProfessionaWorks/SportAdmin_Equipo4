@@ -15,16 +15,6 @@ Cero frameworks pesados, todo es muy directo:
 
 ---
 
-## Estructura rápida del repo
-
-* Los archivos `.html` son las vistas.
-* Las carpetas `/css` y `/js` traen los estilos y la lógica del front.
-* Los archivos `.php` en la raíz son nuestros scripts del backend.
-* `conexion.php` centraliza la conexión a la base de datos.
-* `init.sql` trae el script con las tablas y datos de prueba.
-
----
-
 ## Cómo correrlo en tu laptop
 
 ### Si usas Docker (te lo recomiendo para no batallar):
@@ -45,10 +35,8 @@ Cero frameworks pesados, todo es muy directo:
 Acá la regla principal es que no mezclamos cosas. El front y el back están separados.
 
 1. El usuario interactúa con la interfaz (el HTML).
-2. La página detecta el clic o acción del usuario y le avisa al servidor en PHP.
-3. El PHP recibe los datos, Se comunica con la base de datos de forma segura usando un conector estándar (PDO), ejecuta su lógica y nos regresa una respuesta en formato JSON.
-
-Si quieres ver esto en acción, revisa los archivos `login_futbolero.html` y `validar_login.php`. Ahí está el ejemplo más claro de cómo nos estamos comunicando.
+2. La página detecta el clic o acción del usuario y le avisa al servidor en PHP mediante un `fetch()` en JS.
+3. El PHP recibe los datos, se comunica con la base de datos de forma segura usando un conector estándar (PDO), ejecuta su lógica y nos regresa una respuesta en formato JSON.
 
 ---
 
@@ -61,6 +49,85 @@ Para mantener el código limpio y seguro, todos seguimos estas reglas:
 * **Seguridad de contraseñas:** Las contraseñas no se almacenan en texto plano bajo ninguna circunstancia. Es obligatorio encriptarlas utilizando `password_hash()` y validarlas con `password_verify()`.
 * **Manejo de errores (Try-catch):** Si un archivo PHP realiza una transacción o consulta compleja en la base de datos, debe ir dentro de un bloque try-catch. Así, si ocurre un error en el servidor, se puede devolver un mensaje de error controlado en el JSON evitando que la aplicación falle visualmente.
 
+---
+
+## Mapa Detallado del Proyecto: Para qué sirve cada archivo
+
+A continuación, se detalla el uso exacto de cada directorio y archivo en el sistema para comprender la arquitectura completa:
+
+### Carpetas Frontend
+
+* `/css/`: Almacena exclusivamente las hojas de estilo del proyecto. Si modificas el diseño de una pantalla, debes hacerlo aquí.
+* `/js/`: Contiene toda la lógica del cliente. Aquí viven los scripts que toman los datos de los formularios HTML, aplican validaciones visuales y disparan las peticiones asíncronas (`fetch`) hacia los endpoints de PHP.
+
+### Archivos de Configuración e Infraestructura
+
+* `conexion.php`: Es el script más importante del backend. Contiene las credenciales y el objeto PDO que abre la conexión a MySQL. Todos los demás endpoints deben requerir este archivo.
+* `init.sql`: Contiene las consultas DDL (Data Definition Language) para crear la base de datos desde cero, junto con los datos de prueba.
+* `Dockerfile` y `docker-compose.yml`: Archivos de orquestación que construyen el servidor Apache con PHP 8.2 y el motor MySQL en contenedores aislados.
+
+### Módulo 1: Autenticación y Seguridad
+
+Maneja el acceso, los logins y los cifrados.
+
+* `login_futbolero.html`: Interfaz de inicio de sesión.
+* `validar_login.php`: Recibe credenciales, busca el correo en la base de datos y verifica el hash de la contraseña.
+* `verificar_sesion.php`: Script de validación que se incluye en las páginas protegidas para asegurar que el usuario tenga sesión activa.
+* `cerrar_sesion.php`: Destruye las variables de sesión y redirige al login.
+
+### Módulo 2: Panel de Administración
+
+* `paginaS.html`: El Dashboard principal o menú de inicio una vez que el usuario ingresa al sistema.
+* `menu-opciones.html`: Vista de navegación secundaria.
+
+### Módulo 3: Equipos y Jugadores
+
+Gestión del registro deportivo.
+
+* **Vistas:** `registro-equipos.html`, `registro-jugadores.html`.
+* **Endpoints de creación:** `guardar_equipo.php`, `guardar_jugador.php`.
+* **Endpoints de consulta:** `obtener_equipos.php` (devuelve el catálogo de equipos).
+* **Endpoints de eliminación:** `eliminar_equipo.php`.
+
+### Módulo 4: Torneo, Partidos y Resultados
+
+Administra el transcurso de la liga y la tabla de posiciones.
+
+* **Vistas de gestión:** `agregar-partido.html`, `rol-juego.html`, `roles-juego-tabla.html`.
+* **Vistas de resultados:** `cargar-resultados.html`, `tabla-posiciones.html`.
+* **Endpoints de guardado:** `guardar_partido.php`, `guardar_resultado.php`.
+* **Endpoints de consulta:** `obtener_partidos.php`, `obtener_partidos_pendientes.php`, `obtener_posiciones.php`.
+* **Endpoints de eliminación:** `eliminar_partido.php`.
+
+### Módulo 5: Finanzas e Ingresos
+
+Control económico del club.
+
+* **Vistas:** `pago-abonos.html`, `pago-arbitraje.html`, `pago-inscripcion.html`, `registro-pagos.html`.
+* **Endpoints de guardado:** `guardar_abono.php`, `guardar_arbitraje.php`, `guardar_inscripcion.php`.
+
+### Módulo 6: Administración de Usuarios (Staff)
+
+Manejo de los administradores y encargados de la liga.
+
+* **Vistas:** `agregar-usuario.html`, `gestionar-usuarios.html`.
+* **Endpoints de base de datos:** `guardar_usuario.php`, `obtener_usuarios.php`, `eliminar_usuario.php`, `obtener_roles.php`.
+
+---
+
+## Guía Técnica: ¿Cómo crear un Endpoint nuevo?
+
+Si el sistema necesita crecer y te asignan crear una nueva función (por ejemplo, "Actualizar un equipo"), debes seguir exactamente este flujo para no romper la arquitectura:
+
+1. **Crear el Archivo:** Crea un archivo `.php` nuevo en la carpeta raíz, siguiendo la convención de nombres de acción (ej. `actualizar_equipo.php`).
+2. **Configurar la cabecera JSON:** La primera línea de tu PHP debe ser `header('Content-Type: application/json');`.
+3. **Leer los datos del Frontend:** Utiliza `$data = json_decode(file_get_contents('php://input'), true);` para atrapar lo que envió JavaScript.
+4. **Importar Conexión:** Incluye obligatoriamente el archivo `require_once 'conexion.php';`.
+5. **Estructura Segura:** Abre un bloque `try { ... } catch(Exception $e) { ... }`.
+6. **Consultas con PDO:** Adentro del `try`, escribe tu query usando PDO. Por ejemplo:
+   ```php
+   $stmt =$pdo->prepare("UPDATE equipos SET nombre = ? WHERE id = ?");
+   $stmt->execute([$nombre,$id]);
 ## Mapa del Proyecto: Para qué sirve cada archivo y carpeta
 Toda la aplicación está organizada de forma directa en el directorio raíz para facilitar la comunicación entre la vista y los endpoints:
 
