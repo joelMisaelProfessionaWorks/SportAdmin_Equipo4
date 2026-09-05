@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pago en Abonos - SportAdmin</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/pasarela-pago.css">
+  <!-- jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -223,10 +226,7 @@
           <div class="form-group">
             <label>Equipo</label>
             <select id="equipo" required>
-              <option value="">Selecciona</option>
-              <option value="xolos">XOLOS BELLAVISTA</option>
-              <option value="halcones">Halcones Fundadores</option>
-              <option value="tigres">Tigres Rayados</option>
+              <option value="">Cargando equipos...</option>
             </select>
           </div>
 
@@ -239,29 +239,21 @@
               <option value="4">1 A 3 JORNADAS</option>
             </select>
           </div>
+          
+          <div class="form-group">
+            <label>Método de Pago</label>
+            <select id="metodo_pago" required>
+              <option value="">Selecciona método</option>
+              <option value="Efectivo">Efectivo</option>
+              <option value="Tarjeta">Tarjeta de Crédito/Débito</option>
+            </select>
+          </div>
 
           <div class="form-group">
             <label>Fecha</label>
             <input type="date" id="fecha" required>
           </div>
         </div>
-
-        <table id="tablaParcialidades">
-          <thead>
-            <tr>
-              <th>Equipo</th>
-              <th>Parcialidades</th>
-              <th>Seleccionar</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>XOLOS BELLAVISTA</td>
-              <td>1 A 6 JORNADAS</td>
-              <td><button type="button" class="btn-seleccionar" onclick="seleccionarParcialidad(this)">Seleccionar</button></td>
-            </tr>
-          </tbody>
-        </table>
 
         <button type="submit" class="btn-generar">
           Generar recibo
@@ -270,61 +262,116 @@
     </div>
   </div>
 
+  <script src="js/pasarela-pago.js"></script>
+  <script src="js/recibo-pdf.js"></script>
   <script>
-    // Fecha actual
     document.getElementById('fecha').valueAsDate = new Date();
-
     let montoSeleccionado = 0;
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      const selectEquipo = document.getElementById('equipo');
+      try {
+        const response = await fetch('obtener_equipos.php');
+        const result = await response.json();
+        
+        selectEquipo.innerHTML = '<option value="">Selecciona un equipo</option>';
+        if (result.success && result.data) {
+          result.data.forEach(equipo => {
+            selectEquipo.innerHTML += `<option value="${equipo.IdEquipo}">${equipo.Equipo}</option>`;
+          });
+        }
+      } catch (error) {
+        console.error("Error al cargar equipos:", error);
+      }
+    });
 
     function calcularMonto() {
       const parcialidades = document.getElementById('parcialidades').value;
       const total = 1500;
-      
-      if (parcialidades === '2') {
-        montoSeleccionado = total / 6; // ~$250 por jornada
-      } else if (parcialidades === '3') {
-        montoSeleccionado = total / 4; // $375 por parcialidad
-      } else if (parcialidades === '4') {
-        montoSeleccionado = total / 3; // $500 por parcialidad
-      }
+      if (parcialidades === '2') montoSeleccionado = total / 6;
+      else if (parcialidades === '3') montoSeleccionado = total / 4;
+      else if (parcialidades === '4') montoSeleccionado = total / 3;
     }
 
     function seleccionarParcialidad(btn) {
-      // Remover selección previa
       document.querySelectorAll('.btn-seleccionar').forEach(b => {
         b.textContent = 'Seleccionar';
         b.style.background = '#111';
       });
-      
-      // Seleccionar actual
       btn.textContent = '✓ Seleccionado';
       btn.style.background = '#2ecc71';
     }
 
     function acreditar() {
-      const equipo = document.getElementById('equipo').value;
-      if (!equipo) {
-        alert('⚠️ Selecciona un equipo primero');
-        return;
-      }
-      alert('✅ Parcialidad creada correctamente!');
+      document.getElementById('formAbonos').dispatchEvent(new Event('submit'));
     }
 
-    document.getElementById('formAbonos').addEventListener('submit', function(e) {
+    document.getElementById('formAbonos').addEventListener('submit', async function(e) {
       e.preventDefault();
       
-      const equipo = document.getElementById('equipo').options[document.getElementById('equipo').selectedIndex].text;
-      const parcialidades = document.getElementById('parcialidades').options[document.getElementById('parcialidades').selectedIndex].text;
+      const equipoSelect = document.getElementById('equipo');
+      const equipo_id = equipoSelect.value;
+      const equipo_nombre = equipoSelect.options[equipoSelect.selectedIndex]?.text;
+      const parcialidadesSelect = document.getElementById('parcialidades');
+      const parcialidad_valor = parcialidadesSelect.value;
       const fecha = document.getElementById('fecha').value;
 
-      if (montoSeleccionado === 0) {
-        alert('⚠️ Selecciona las parcialidades');
+      const metodoPago = document.getElementById('metodo_pago').value;
+
+      if (!equipo_id || montoSeleccionado === 0) {
+        alert('⚠️ Selecciona un equipo y las parcialidades');
         return;
       }
 
-      alert(`✅ Recibo de abono generado\n\nEquipo: ${equipo}\nParcialidad: ${parcialidades}\nMonto del abono: $${montoSeleccionado.toFixed(2)}\nFecha: ${fecha}\n\n📱 Enviando recibo por WhatsApp...`);
-      
-      location.href = 'registro-pagos.html';
+      if (!metodoPago) {
+        alert("⚠️ Selecciona un método de pago.");
+        return;
+      }
+
+      try {
+        let transaccionBancaria = {
+            equipo_nombre: equipo_nombre,
+            metodo_pago: 'Efectivo',
+            folio: 'N/A',
+            autorizacion_bancaria: 'N/A'
+        };
+
+        if (metodoPago === 'Tarjeta') {
+            transaccionBancaria = await abrirModalPago({
+                monto: montoSeleccionado,
+                concepto: 'Abono Parcialidad ' + parcialidad_valor,
+                equipo: equipo_nombre
+            });
+        }
+
+        const response = await fetch('guardar_abono.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+              equipo_id, 
+              equipo_nombre,
+              monto: montoSeleccionado, 
+              parcialidad: parcialidad_valor, 
+              fecha,
+              metodo_pago: transaccionBancaria.metodo_pago,
+              folio: transaccionBancaria.folio,
+              autorizacion_bancaria: transaccionBancaria.autorizacion_bancaria
+          })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          generarTicketPDF(result.transaccion);
+          setTimeout(() => { location.href = 'registro-pagos.html'; }, 1500);
+        } else {
+          alert('🚫 Error: ' + result.mensaje);
+        }
+      } catch (error) {
+        if(error.message !== "Pago cancelado por el usuario") {
+            alert('🚫 Error al procesar el pago.');
+            console.error("Detalle:", error);
+        }
+      }
     });
   </script>
 </body>

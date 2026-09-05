@@ -1,44 +1,52 @@
 <?php
 header('Content-Type: application/json');
 
-$host = '127.0.0.1';
-$dbname = 'club_leon';
-$db_user = 'root';
-$db_pass = 'admin'; 
+require_once 'conexion.php';
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $db_user, $db_pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     $data = json_decode(file_get_contents('php://input'), true);
 
-    // Recibimos los datos del frontend
     $equipo_id = trim($data['equipo_id'] ?? '');
+    $equipo_nombre = trim($data['equipo_nombre'] ?? 'Equipo');
     $monto = trim($data['monto'] ?? '');
     $parcialidad = trim($data['parcialidad'] ?? '');
     $fecha = trim($data['fecha'] ?? '');
+    
+    // Datos bancarios
+    $metodo_pago = $data['metodo_pago'] ?? 'Efectivo';
+    $folio_txn = $data['folio'] ?? '';
+    $auth_txn = $data['autorizacion_bancaria'] ?? '';
+    $concepto_pago = "Abono (Parcialidad $parcialidad)";
 
     if (empty($equipo_id) || empty($monto) || empty($parcialidad) || empty($fecha)) {
         throw new Exception("Faltan datos para registrar el abono.");
     }
 
-    // Como tu tabla pide "Usuario_IdUsuario", usaremos el ID 1 temporalmente 
-    // para cumplir con la llave foránea de tu base de datos.
     $id_usuario = 1; 
 
-    // Insertamos usando TUS nombres de columnas exactos
     $stmt = $pdo->prepare("INSERT INTO `registro de abono` (Usuario_IdUsuario, MontoAbonado, Parcialidad, FechaDeAbono) VALUES (?, ?, ?, ?)");
     $stmt->execute([$id_usuario, $monto, $parcialidad, $fecha]);
 
     echo json_encode([
         'success' => true,
-        'mensaje' => 'Abono registrado correctamente.'
+        'mensaje' => 'Abono registrado correctamente.',
+        'transaccion' => [
+            'tipo_pago' => 'ABONO',
+            'folio' => $folio_txn ?: 'ABN-' . time(),
+            'autorizacion_bancaria' => $auth_txn,
+            'concepto' => $concepto_pago,
+            'equipo_nombre' => $equipo_nombre,
+            'monto' => $monto,
+            'fecha' => $fecha,
+            'hora' => date('H:i:s'),
+            'metodo_pago' => $metodo_pago
+        ]
     ]);
 
 } catch (Exception $e) {
     echo json_encode([
         'success' => false,
-        'mensaje' => 'Error BD: ' . $e->getMessage()
+        'mensaje' => 'Ocurrió un error en el servidor. Intenta nuevamente.'
     ]);
 }
 ?>
