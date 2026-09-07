@@ -24,15 +24,15 @@ A continuación se documentan las mejoras implementadas en la plataforma (basado
 - **Qué hicimos:** Eliminación de pantallas duplicadas que causaban confusión y depuración profunda de información revuelta de equipos.
 - **Cómo lo implementamos:** Borrado de archivos visuales redundantes. Ejecución de consultas (queries) SQL directamente en el servidor para eliminar registros corruptos, duplicados o vacíos en la Base de Datos.
 
-### [[4. Background Temático de Fútbol]]
+### 4. Background Temático de Fútbol
 - **Qué hicimos:** Aplicación de un fondo con temática deportiva en toda la plataforma para mejorar la identidad visual.
 - **Cómo lo implementamos:** Edición de la hoja de estilos global (`CSS`) añadiendo una regla `background-image` responsiva, para que la imagen se adapte perfectamente tanto a celulares como a monitores sin perder calidad.
 
-### [[5. Estabilización de Conexión a BD]]
+### 5. Estabilización de Conexión a BD
 - **Qué hicimos:** Solución a un error crítico que provocaba que la plataforma no pudiera comunicarse con la base de datos (evitando caídas del sistema).
 - **Cómo lo implementamos:** Revisión y actualización de las credenciales de conexión en los archivos de configuración de PHP. Se añadió un manejo de errores robusto para evitar que el sistema colapse ante intermitencias del servidor.
 
-### [[6. Reordenamiento de Módulos (UX)]]
+### 6. Reordenamiento de Módulos (UX)
 - **Qué hicimos:** Cambio de la jerarquía en el menú para mostrar primero los módulos más importantes y usados (ej. pagos e inscripciones).
 - **Cómo lo implementamos:** Modificación del código del "layout" principal para renderizar los accesos en un nuevo orden lógico de arriba hacia abajo, optimizando la experiencia de usuario (UX).
 
