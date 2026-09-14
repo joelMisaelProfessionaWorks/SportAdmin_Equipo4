@@ -1,14 +1,9 @@
 <?php
 header('Content-Type: application/json');
 
-$host = '127.0.0.1';
-$dbname = 'club_leon';
-$db_user = 'root';
-$db_pass = 'admin'; 
+require_once 'conexion.php';
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $db_user, $db_pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Hacemos JOIN con la tabla equipos dos veces (una para el local y otra para el visitante)
     // OJO: Asumo que tu tabla de equipos se llama "equipos". Si se llama distinto, cámbialo aquí.
@@ -38,7 +33,7 @@ try {
 } catch (Exception $e) {
     echo json_encode([
         'success' => false,
-        'mensaje' => 'Error BD: ' . $e->getMessage()
+        'mensaje' => 'Ocurrió un error en el servidor. Intenta nuevamente.'
     ]);
 }
 ?>
