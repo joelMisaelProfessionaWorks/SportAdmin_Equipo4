@@ -1,14 +1,9 @@
 <?php
 header('Content-Type: application/json');
 
-$host = '127.0.0.1';
-$dbname = 'club_leon';
-$db_user = 'root';
-$db_pass = 'admin'; 
+require_once 'conexion.php';
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $db_user, $db_pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Consulta nivel Dios: Calcula PJ, V, E, D y Puntos usando tus columnas de goles
     $query = "
@@ -43,7 +38,7 @@ try {
 } catch (Exception $e) {
     echo json_encode([
         'success' => false,
-        'mensaje' => 'Error BD: ' . $e->getMessage()
+        'mensaje' => 'Ocurrió un error en el servidor. Intenta nuevamente.'
     ]);
 }
 ?>
