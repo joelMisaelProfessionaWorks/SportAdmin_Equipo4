@@ -3,131 +3,302 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Menú de Opciones - SportAdmin</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Menú Principal - SportAdmin (Club León Saltillo)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/soccer-theme.css">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(0deg, #1a4a1a 0%, #2ecc71 100%);
-      font-family: 'Rajdhani', sans-serif;
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 30px;
     }
 
-    .container {
-      width: 850px;
-      /* Cambiamos a auto para que crezca según los botones */
-      height: auto; 
-      min-height: 550px;
-      background: #2c3e50; 
-      border-radius: 15px;
-      padding: 40px;
-      border: 3px solid #2ecc71;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-      text-align: center;
+    .menu-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-top: 3px solid var(--verde-pasto);
+      border-radius: 20px;
+      padding: 32px 28px;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
+      gap: 20px;
+      text-decoration: none;
+      color: var(--texto-principal);
+      transition: var(--tr-smooth);
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
     }
 
-    h1 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3.5rem;
-      color: white;
-      margin-bottom: 5px;
-      letter-spacing: 2px;
+    .menu-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, var(--verde-glow) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
     }
 
-    .subtitle {
-      color: #2ecc71;
-      font-weight: 700;
-      margin-bottom: 30px;
-      font-size: 0.9rem;
-      text-transform: uppercase;
+    .menu-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-top-color: var(--verde-brillante);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 0 25px var(--verde-glow);
     }
 
-    .grid-menu {
-      display: grid;
-      /* Forzamos 2 columnas claras */
-      grid-template-columns: repeat(2, 1fr); 
-      gap: 15px;
-      flex-grow: 1;
+    .menu-card:hover::before {
+      opacity: 1;
     }
 
-    .btn-menu {
-      background: #111;
-      color: white;
-      /* Reducimos el padding de 35px a 20px para que no ocupen tanto espacio vertical */
-      padding: 20px 10px; 
-      border: 2px solid #2ecc71;
-      border-radius: 10px;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.4rem;
-      cursor: pointer;
-      transition: 0.3s;
-      text-transform: uppercase;
+    .card-icon {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.9) 100%);
+      border: 2px solid rgba(46, 204, 113, 0.3);
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 2.2rem;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+      transition: var(--tr-fast);
     }
 
-    .btn-menu:hover {
-      background: #2ecc71;
-      color: #111;
-      transform: scale(1.02);
+    .menu-card:hover .card-icon {
+      border-color: var(--verde-brillante);
+      background: linear-gradient(135deg, var(--verde-pasto) 0%, var(--verde-leon) 100%);
+      color: #ffffff;
+      transform: scale(1.1) rotate(4deg);
     }
 
-    .btn-admin {
-      border-color: #5060cc; 
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 6px;
     }
-    .btn-admin:hover {
-      background: #5060cc;
-      color: white;
+
+    .card-desc {
+      font-size: 0.95rem;
+      color: var(--texto-secundario);
+      line-height: 1.4;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-accent);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--verde-pasto);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .card-admin {
+      border-top-color: var(--oro-campeon);
+    }
+    .card-admin:hover {
+      border-top-color: #fbbf24;
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 0 25px var(--oro-glow);
+    }
+    .card-admin .card-icon {
+      border-color: rgba(255, 179, 0, 0.4);
+    }
+
+    .stats-banner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .stat-pill {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-left: 3px solid var(--verde-pasto);
+      border-radius: 14px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--verde-brillante);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: var(--font-accent);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--texto-secundario);
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>MENÚ DE OPCIONES</h1>
-    <p class="subtitle">Club Deportivo León Saltillo</p>
 
-    <div class="grid-menu">
-      <button class="btn-menu" onclick="location.href='registro-equipos.html'">Registro de Equipos</button>
-      <button class="btn-menu" onclick="location.href='registro-pagos.html'">Registro de Pagos</button>
-      <button class="btn-menu" onclick="location.href='roles-juego-tabla.html'">Registro de Rol de Juego</button>
-      <button class="btn-menu" onclick="location.href='tabla-posiciones.html'">Tabla de Posiciones</button>
-      <button class="btn-menu" onclick="location.href='registro-jugadores.html'">Registro de Jugadores</button>
-      <button class="btn-menu btn-admin" onclick="location.href='gestionar-usuarios.html'">Gestión de Usuarios</button>
+  <div class="app-container">
+
+    <div class="stadium-card">
+      <div class="stadium-header">
+        <div class="title-group">
+          <div class="badge-emblem">⚽</div>
+          <div>
+            <h1 class="main-title">MENÚ DE OPCIONES</h1>
+            <p class="subtitle">CLUB DEPORTIVO LEÓN SALTILLO • SPORTADMIN 2026</p>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="badge-status badge-live">EN VIVO</span>
+          <button class="btn-futbol btn-outline btn-sm" onclick="location.href='paginaS.html'">
+            🚪 Salir del Estadio
+          </button>
+        </div>
+      </div>
+
+      <div style="padding: 28px 36px;">
+
+        <!-- Live Tournament Stats Banner -->
+        <div class="stats-banner">
+          <div class="stat-pill">
+            <span style="font-size: 2rem;">🛡️</span>
+            <div>
+              <div class="stat-number">12</div>
+              <div class="stat-label">Equipos Registrados</div>
+            </div>
+          </div>
+
+          <div class="stat-pill" style="border-left-color: var(--oro-campeon);">
+            <span style="font-size: 2rem;">🏆</span>
+            <div>
+              <div class="stat-number" style="color: var(--oro-campeon);">J-8</div>
+              <div class="stat-label">Jornada Actual</div>
+            </div>
+          </div>
+
+          <div class="stat-pill">
+            <span style="font-size: 2rem;">🏃</span>
+            <div>
+              <div class="stat-number">180+</div>
+              <div class="stat-label">Jugadores Activos</div>
+            </div>
+          </div>
+
+          <div class="stat-pill" style="border-left-color: var(--verde-brillante);">
+            <span style="font-size: 2rem;">⚡</span>
+            <div>
+              <div class="stat-number" style="color: var(--verde-brillante);">100%</div>
+              <div class="stat-label">Canchas Disponibles</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Module Grid -->
+        <div class="dashboard-grid">
+
+          <!-- 1. Registro de Equipos -->
+          <a href="../Backend/Registro de Equipos/registro-equipos.html" class="menu-card">
+            <div class="card-icon">🛡️</div>
+            <div>
+              <h2 class="card-title">REGISTRO DE EQUIPOS</h2>
+              <p class="card-desc">Alta de escuadras, inscripción de encargados, clave de acceso y números de contacto.</p>
+            </div>
+            <div class="card-footer">
+              <span>Gestionar Clubes</span>
+              <span>➔</span>
+            </div>
+          </a>
+
+          <!-- 2. Registro de Pagos -->
+          <a href="../Backend/Registro de pagos/registro-pagos.html" class="menu-card">
+            <div class="card-icon">💳</div>
+            <div>
+              <h2 class="card-title">REGISTRO DE PAGOS</h2>
+              <p class="card-desc">Control de inscripciones, recibos digitales, pago de arbitrajes y cuotas de torneo.</p>
+            </div>
+            <div class="card-footer">
+              <span>Tesorería & Recibos</span>
+              <span>➔</span>
+            </div>
+          </a>
+
+          <!-- 3. Rol de Juego -->
+          <a href="../Backend/Rol y Rol de juego/roles-juego-tabla.html" class="menu-card">
+            <div class="card-icon">📅</div>
+            <div>
+              <h2 class="card-title">ROL DE JUEGO</h2>
+              <p class="card-desc">Calendario de partidos por jornada, canchas, horarios y fixture oficial del torneo.</p>
+            </div>
+            <div class="card-footer">
+              <span>Ver Jornadas</span>
+              <span>➔</span>
+            </div>
+          </a>
+
+          <!-- 4. Tabla de Posiciones -->
+          <a href="../Backend/Tabla de posiciones/tabla-posiciones.html" class="menu-card">
+            <div class="card-icon">🏆</div>
+            <div>
+              <h2 class="card-title">TABLA DE POSICIONES</h2>
+              <p class="card-desc">Clasificación general, estadísticas de goles, puntos y zona de Liguilla en tiempo real.</p>
+            </div>
+            <div class="card-footer">
+              <span>Ver Tabla General</span>
+              <span>➔</span>
+            </div>
+          </a>
+
+          <!-- 5. Registro de Jugadores -->
+          <a href="../Backend/Registro de Jugadores/registro-jugadores.html" class="menu-card">
+            <div class="card-icon">🏃</div>
+            <div>
+              <h2 class="card-title">REGISTRO DE JUGADORES</h2>
+              <p class="card-desc">Plantillas de jugadores por equipo, dorsal, edad, posición y fichaje oficial.</p>
+            </div>
+            <div class="card-footer">
+              <span>Administrar Plantillas</span>
+              <span>➔</span>
+            </div>
+          </a>
+
+          <!-- 6. Gestión de Usuarios (Admin) -->
+          <a href="../Backend/Usuario/gestionar-usuarios.html" class="menu-card card-admin">
+            <div class="card-icon">👥</div>
+            <div>
+              <h2 class="card-title" style="color: var(--oro-campeon);">GESTIÓN DE USUARIOS</h2>
+              <p class="card-desc">Control de administradores, árbitros, coordinadores y permisos de acceso al sistema.</p>
+            </div>
+            <div class="card-footer" style="color: var(--oro-campeon);">
+              <span>Panel de Control</span>
+              <span>➔</span>
+            </div>
+          </a>
+
+        </div>
+
+      </div>
     </div>
-    
-    <button class="btn-menu" style="margin-top: 20px; background: #e74c3c; border-color: #c0392b;" onclick="cerrarSesion()">Cerrar Sesión</button>
+
   </div>
 
-  <script>
-    async function verificarSesion() {
-      try {
-        const res = await fetch('verificar_sesion.php');
-        const data = await res.json();
-        if (!data.logged_in) {
-          window.location.href = 'login_futbolero.html';
-        }
-      } catch (e) {
-        console.error('Error verificando sesión', e);
-      }
-    }
-    
-    async function cerrarSesion() {
-      try {
-        await fetch('cerrar_sesion.php');
-        window.location.href = 'login_futbolero.html';
-      } catch (e) {
-        console.error('Error cerrando sesión', e);
-      }
-    }
-
-    verificarSesion();
-  </script>
 </body>
 </html>

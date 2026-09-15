@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Pagos - SportAdmin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../Frontend/css/soccer-theme.css">
+  <style>
+    .payment-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .payment-card {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+      transition: var(--tr-smooth);
+    }
+
+    .payment-card:hover {
+      border-color: var(--verde-pasto);
+      transform: translateY(-4px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--verde-glow);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+
+    <div class="stadium-card">
+      <div class="stadium-header">
+        <div class="title-group">
+          <button class="btn-futbol btn-outline btn-sm" onclick="location.href='../../Frontend/menu-opciones.html'">
+            ⬅️ Menú Principal
+          </button>
+          <div>
+            <h1 class="main-title">GESTIÓN DE PAGOS Y TESORERÍA</h1>
+            <p class="subtitle">CONTROL DE INSCRIPCIONES, ABONOS Y ARBITRAJES</p>
+          </div>
+        </div>
+
+        <span class="badge-status badge-live">TESORERÍA DIGITAL</span>
+      </div>
+
+      <div style="padding: 36px;">
+
+        <div class="payment-grid">
+
+          <!-- 1. Pago de Inscripción -->
+          <div class="payment-card">
+            <div>
+              <div style="font-size: 2.5rem; margin-bottom: 10px;">📋</div>
+              <h2 style="font-family: var(--font-display); font-size: 2rem; color: #ffffff;">PAGO DE INSCRIPCIÓN</h2>
+              <p style="color: var(--texto-secundario); font-size: 0.95rem; line-height: 1.4;">
+                Registro y comprobante oficial de la cuota de inscripción del torneo para cada club participante.
+              </p>
+            </div>
+            <button class="btn-futbol" onclick="location.href='pago-inscripcion.html'">
+              💳 Registrar Inscripción
+            </button>
+          </div>
+
+          <!-- 2. Pago de Abonos -->
+          <div class="payment-card">
+            <div>
+              <div style="font-size: 2.5rem; margin-bottom: 10px;">💰</div>
+              <h2 style="font-family: var(--font-display); font-size: 2rem; color: #ffffff;">PAGO DE ABONOS</h2>
+              <p style="color: var(--texto-secundario); font-size: 0.95rem; line-height: 1.4;">
+                Abonos parciales de equipos a la bolsa de premiación, mantenimiento de campo y credenciales.
+              </p>
+            </div>
+            <button class="btn-futbol btn-gold" onclick="location.href='../Registro de abonos/pago-abonos.html'">
+              💵 Registrar Abono
+            </button>
+          </div>
+
+          <!-- 3. Pago de Arbitraje -->
+          <div class="payment-card">
+            <div>
+              <div style="font-size: 2.5rem; margin-bottom: 10px;">🏁</div>
+              <h2 style="font-family: var(--font-display); font-size: 2rem; color: #ffffff;">PAGO DE ARBITRAJE</h2>
+              <p style="color: var(--texto-secundario); font-size: 0.95rem; line-height: 1.4;">
+                Liquidación de honorarios arbitrales por partido jugado según la jornada correspondiente.
+              </p>
+            </div>
+            <button class="btn-futbol btn-outline" onclick="location.href='../Registro de abonos/pago-arbitraje.html'">
+              ⚖️ Registrar Arbitraje
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
