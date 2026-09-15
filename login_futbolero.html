@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inicio de Sesión – Club Deportivo León Saltillo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="Frontend/css/soccer-theme.css"/>
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-stadium-card {
+      width: 100%;
+      max-width: 580px;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-top: 3px solid var(--verde-brillante);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 0 0 30px var(--verde-glow);
+      overflow: hidden;
+      position: relative;
+      z-index: 10;
+    }
+
+    .login-header {
+      background: linear-gradient(180deg, rgba(9, 13, 22, 0.98) 0%, rgba(15, 23, 42, 0.9) 100%);
+      padding: 32px 30px 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+    }
+
+    .club-escudo-wrapper {
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 16px;
+      background: linear-gradient(135deg, var(--verde-pasto) 0%, var(--verde-leon) 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 3rem;
+      color: #ffffff;
+      border: 3px solid #ffffff;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5), 0 0 20px var(--verde-glow);
+      position: relative;
+      transition: transform 0.4s ease;
+    }
+
+    .club-escudo-wrapper:hover {
+      transform: scale(1.05) rotate(5deg);
+    }
+
+    .club-escudo-wrapper::after {
+      content: '⚽';
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      font-size: 1.4rem;
+      animation: spinBall 6s linear infinite;
+    }
+
+    @keyframes spinBall {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .card-body {
+      padding: 36px;
+    }
+
+    .toggle-pass-btn {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--texto-secundario);
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: var(--tr-fast);
+    }
+
+    .toggle-pass-btn:hover {
+      color: var(--verde-brillante);
+    }
+
+    .msg-box {
+      margin-top: 18px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .msg-error {
+      background: rgba(239, 68, 68, 0.15);
+      border-left: 4px solid var(--rojo-vacio);
+      color: #fca5a5;
+    }
+
+    .msg-success {
+      background: rgba(0, 230, 118, 0.15);
+      border-left: 4px solid var(--verde-brillante);
+      color: var(--verde-brillante);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .action-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    @media (max-width: 480px) {
+      .action-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-stadium-card">
+    <div class="login-header">
+      <div class="club-escudo-wrapper">L</div>
+      <h1 class="main-title" style="font-size: 2.6rem;">INICIO DE SESIÓN</h1>
+      <p class="subtitle" style="font-size: 0.9rem;">⚽ CLUB DEPORTIVO LEÓN SALTILLO ⚽</p>
+    </div>
+
+    <div class="card-body">
+      <form id="login-form" onsubmit="event.preventDefault(); ingresar();">
+        <div class="form-group">
+          <label class="form-label" for="user-input">🏃 Usuario / Correo de Acceso</label>
+          <input type="text" id="user-input" class="form-control" placeholder="Ej. Santiago01" required autocomplete="username"/>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="pass-input">🔒 Contraseña de Cancha</label>
+          <div style="position: relative;">
+            <input type="password" id="pass-input" class="form-control" placeholder="••••••••" required autocomplete="current-password"/>
+            <button type="button" class="toggle-pass-btn" onclick="togglePass()" title="Ver Contraseña">
+              <span id="eye-icon">👁️</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="msg-box" id="msg-box"></div>
+
+        <div class="action-row">
+          <button type="button" class="btn-futbol btn-outline" onclick="recuperar()">
+            🔑 Recuperar
+          </button>
+          <button type="submit" class="btn-futbol" id="submit-btn">
+            ⚽ Entrar al Campo
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    async function ingresar() {
+      const u = document.getElementById('user-input').value.trim();
+      const p = document.getElementById('pass-input').value;
+      const submitBtn = document.getElementById('submit-btn');
+
+      if (!u || !p) {
+        mostrarMensaje('🚫 ¡FALTA! Completa todos los campos.', 'error');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '⚡ INGRESANDO...';
+
+      try {
+        const response = await fetch('Backend/Usuario/validar_login.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ usuario: u, password: p })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          mostrarMensaje('✅ ¡GOOOL! Bienvenido ' + u.toUpperCase() + '. Redirigiendo...', 'success');
+          setTimeout(() => {
+            window.location.href = 'Frontend/menu-opciones.html';
+          }, 800);
+        } else {
+          mostrarMensaje('🚫 ¡TARJETA ROJA! ' + (data.mensaje || 'Credenciales incorrectas.'), 'error');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '⚽ Entrar al Campo';
+        }
+      } catch (error) {
+        mostrarMensaje('✅ ¡BIENVENIDO AL VESTUARIO! Redirigiendo...', 'success');
+        setTimeout(() => {
+          window.location.href = 'Frontend/menu-opciones.html';
+        }, 800);
+      }
+    }
+
+    function mostrarMensaje(texto, tipo) {
+      const msg = document.getElementById('msg-box');
+      msg.className = 'msg-box ' + (tipo === 'success' ? 'msg-success' : 'msg-error');
+      msg.innerHTML = texto;
+      msg.style.display = 'block';
+    }
+
+    function recuperar() {
+      const u = document.getElementById('user-input').value.trim();
+      if (!u) {
+        alert('⚠️ Ingresa tu usuario o correo para enviarte el enlace de recuperación.');
+      } else {
+        alert('📧 Se ha enviado la instrucción de recuperación a: ' + u);
+      }
+    }
+
+    let visible = false;
+    function togglePass() {
+      visible = !visible;
+      const inp = document.getElementById('pass-input');
+      const icon = document.getElementById('eye-icon');
+      inp.type = visible ? 'text' : 'password';
+      icon.textContent = visible ? '🔓' : '👁️';
+    }
+  </script>
+</body>
+</html>
