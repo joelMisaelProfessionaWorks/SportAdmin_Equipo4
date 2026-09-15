@@ -7,65 +7,52 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../Frontend/css/soccer-theme.css">
   <style>
-    .legend-container {
+    .legend-container-pro {
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 16px;
-      background: rgba(15, 23, 42, 0.8);
+      background: rgba(11, 17, 32, 0.8);
       border: 1px solid rgba(255, 255, 255, 0.08);
       padding: 16px 24px;
-      border-radius: 14px;
       margin-bottom: 24px;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
     }
 
-    .legend-group {
+    .legend-group-pro {
       display: flex;
       align-items: center;
       gap: 20px;
       flex-wrap: wrap;
     }
 
-    .legend-pill {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-family: var(--font-accent);
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--texto-secundario);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .badge-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-    }
+    .rank-medal-gold { color: var(--oro-campeon); font-weight: 700; }
+    .rank-medal-silver { color: var(--plata); font-weight: 700; }
+    .rank-medal-bronze { color: var(--bronce); font-weight: 700; }
   </style>
 </head>
 <body>
 
   <div class="app-container">
 
-    <div class="stadium-card">
-      <div class="stadium-header">
-        <div class="title-group">
-          <button class="btn-futbol btn-outline btn-sm" onclick="location.href='../../Frontend/menu-opciones.html'">
-            ⬅️ Menú Principal
+    <div class="stadium-card-pro">
+      <div class="stadium-header-pro">
+        <div class="title-group-pro">
+          <button class="btn-pro btn-pro-outline" onclick="location.href='../../Frontend/menu-opciones.html'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Menú Principal
           </button>
           <div>
-            <h1 class="main-title">TABLA DE POSICIONES</h1>
-            <p class="subtitle">TORNEO LIGA LEÓN SALTILLO • CLASIFICACIÓN GENERAL</p>
+            <h1 class="main-title-pro">TABLA DE POSICIONES</h1>
+            <p class="subtitle-pro">CLASIFICACIÓN GENERAL • TORNEO LEÓN SALTILLO</p>
           </div>
         </div>
 
         <div style="display: flex; align-items: center; gap: 12px;">
-          <span class="badge-status badge-live">EN VIVO</span>
-          <button class="btn-futbol btn-gold btn-sm" onclick="location.href='cargar-resultados.html'">
-            ⚽ Cargar Resultados
+          <span class="badge-pro badge-live-pro">TIEMPO REAL</span>
+          <button class="btn-pro btn-pro-gold" onclick="location.href='cargar-resultados.html'">
+            Cargar Marcador
           </button>
         </div>
       </div>
@@ -73,30 +60,26 @@
       <div style="padding: 28px 36px;">
 
         <!-- Legend Banner -->
-        <div class="legend-container">
-          <div class="legend-group">
+        <div class="legend-container-pro">
+          <div class="legend-group-pro">
             <div class="legend-pill">
-              <span class="badge-dot" style="background: var(--oro-campeon); box-shadow: 0 0 10px var(--oro-glow);"></span>
-              <span>1º LÍDER GENERAL (ORO)</span>
+              <span style="display: inline-block; width: 12px; height: 12px; background: var(--oro-campeon); margin-right: 6px;"></span>
+              <span>1º Líder General</span>
             </div>
             <div class="legend-pill">
-              <span class="badge-dot" style="background: var(--verde-pasto);"></span>
-              <span>LIGUILLA DIRECTA (TOP 4)</span>
-            </div>
-            <div class="legend-pill">
-              <span class="badge-dot" style="background: var(--bronce);"></span>
-              <span>REPECHAJE</span>
+              <span style="display: inline-block; width: 12px; height: 12px; background: var(--verde-pasto); margin-right: 6px;"></span>
+              <span>Liguilla Directa (Top 4)</span>
             </div>
           </div>
 
-          <button class="btn-futbol btn-outline btn-sm" onclick="compartir()">
-            📱 Compartir Tabla
+          <button class="btn-pro btn-pro-outline" onclick="compartir()">
+            Compartir Clasificación
           </button>
         </div>
 
         <!-- Leaderboard Table -->
-        <div class="table-responsive">
-          <table class="stadium-table">
+        <div style="width: 100%; overflow-x: auto;">
+          <table class="stadium-table" style="width: 100%;">
             <thead>
               <tr>
                 <th style="width: 70px;">POS</th>
@@ -112,10 +95,9 @@
               </tr>
             </thead>
             <tbody id="tabla-body">
-              <!-- JS Dynamic Rendering -->
               <tr>
                 <td colspan="10" style="padding: 40px; text-align: center; color: var(--texto-secundario);">
-                  ⚡ Cargando posiciones del torneo...
+                  Consultando tabla de posiciones...
                 </td>
               </tr>
             </tbody>
@@ -133,9 +115,9 @@
         navigator.share({
           title: 'Tabla de Posiciones - Club Deportivo León Saltillo',
           url: window.location.href
-        }).catch(err => console.log('Share canceled'));
+        }).catch(err => console.log(err));
       } else {
-        alert('📱 ¡Tabla de posiciones lista para compartir por WhatsApp!');
+        alert('Tabla de posiciones copiada para compartir.');
       }
     }
 
@@ -146,49 +128,9 @@
         const response = await fetch('obtener_posiciones.php');
         const result = await response.json();
 
-        if (result.success && result.data.length > 0) {
-          tbody.innerHTML = '';
-
-          result.data.forEach((equipo, index) => {
-            const pos = index + 1;
-            let rankClass = '';
-            let badgeIcon = pos;
-
-            if (pos === 1) {
-              rankClass = 'rank-1';
-              badgeIcon = '🥇 1';
-            } else if (pos === 2) {
-              rankClass = 'rank-2';
-              badgeIcon = '🥈 2';
-            } else if (pos === 3) {
-              rankClass = 'rank-3';
-              badgeIcon = '🥉 3';
-            }
-
-            const dg = (parseInt(equipo.GolesAFavor || 0) - parseInt(equipo.GolesEnContra || 0));
-            const dgStr = dg > 0 ? `+${dg}` : `${dg}`;
-
-            tbody.innerHTML += `
-              <tr class="${rankClass}">
-                <td>
-                  <span class="rank-badge ${pos <= 3 ? 'rank-badge-' + pos : ''}">${badgeIcon}</span>
-                </td>
-                <td style="text-align: left; font-weight: 700; color: #ffffff;">
-                  🛡️ ${equipo.Equipo}
-                </td>
-                <td>${equipo.PJ || 0}</td>
-                <td style="color: var(--verde-brillante);">${equipo.V || 0}</td>
-                <td>${equipo.E || 0}</td>
-                <td style="color: var(--rojo-vacio);">${equipo.D || 0}</td>
-                <td>${equipo.GolesAFavor || 0}</td>
-                <td>${equipo.GolesEnContra || 0}</td>
-                <td style="font-weight: 700; color: ${dg >= 0 ? 'var(--verde-pasto)' : 'var(--rojo-vacio)'};">${dgStr}</td>
-                <td style="font-family: var(--font-display); font-size: 1.5rem; color: var(--oro-campeon);">${equipo.PTS || 0}</td>
-              </tr>
-            `;
-          });
+        if (result.success && Array.isArray(result.data) && result.data.length > 0) {
+          renderTabla(result.data, tbody);
         } else {
-          // Fallback UI with sample tournament data
           renderMockTable(tbody);
         }
       } catch (error) {
@@ -196,44 +138,44 @@
       }
     });
 
+    function renderTabla(data, tbody) {
+      tbody.innerHTML = '';
+      data.forEach((equipo, index) => {
+        const pos = index + 1;
+        let posTag = `#${pos}`;
+
+        if (pos === 1) posTag = `<span class="rank-medal-gold">1º Gold</span>`;
+        else if (pos === 2) posTag = `<span class="rank-medal-silver">2º Silver</span>`;
+        else if (pos === 3) posTag = `<span class="rank-medal-bronze">3º Bronze</span>`;
+
+        const dg = (parseInt(equipo.GolesAFavor || 0) - parseInt(equipo.GolesEnContra || 0));
+        const dgStr = dg > 0 ? `+${dg}` : `${dg}`;
+
+        tbody.innerHTML += `
+          <tr>
+            <td>${posTag}</td>
+            <td style="text-align: left; font-weight: 700; color: #ffffff;">${equipo.Equipo}</td>
+            <td>${equipo.PJ || 0}</td>
+            <td style="color: var(--verde-brillante);">${equipo.V || 0}</td>
+            <td>${equipo.E || 0}</td>
+            <td style="color: var(--rojo-vacio);">${equipo.D || 0}</td>
+            <td>${equipo.GolesAFavor || 0}</td>
+            <td>${equipo.GolesEnContra || 0}</td>
+            <td style="font-weight: 700; color: ${dg >= 0 ? 'var(--verde-pasto)' : 'var(--rojo-vacio)'};">${dgStr}</td>
+            <td style="font-family: var(--font-display); font-size: 1.5rem; color: var(--oro-campeon);">${equipo.PTS || 0}</td>
+          </tr>
+        `;
+      });
+    }
+
     function renderMockTable(tbody) {
       const mockData = [
         { Equipo: 'Xolos Bellavista', PJ: 8, V: 7, E: 1, D: 0, GolesAFavor: 22, GolesEnContra: 5, PTS: 22 },
         { Equipo: 'Cardenales FC', PJ: 8, V: 5, E: 2, D: 1, GolesAFavor: 18, GolesEnContra: 9, PTS: 17 },
         { Equipo: 'Leones Saltillo', PJ: 8, V: 5, E: 1, D: 2, GolesAFavor: 16, GolesEnContra: 10, PTS: 16 },
-        { Equipo: 'Tigres Unidos', PJ: 8, V: 4, E: 1, D: 3, GolesAFavor: 14, GolesEnContra: 12, PTS: 13 },
-        { Equipo: 'Rayados FC', PJ: 8, V: 2, E: 2, D: 4, GolesAFavor: 10, GolesEnContra: 15, PTS: 8 },
-        { Equipo: 'Halcones de Saltillo', PJ: 8, V: 0, E: 1, D: 7, GolesAFavor: 4, GolesEnContra: 23, PTS: 1 }
+        { Equipo: 'Tigres Unidos', PJ: 8, V: 4, E: 1, D: 3, GolesAFavor: 14, GolesEnContra: 12, PTS: 13 }
       ];
-
-      tbody.innerHTML = '';
-      mockData.forEach((equipo, index) => {
-        const pos = index + 1;
-        let rankClass = '';
-        let badgeIcon = pos;
-
-        if (pos === 1) { rankClass = 'rank-1'; badgeIcon = '🥇 1'; }
-        else if (pos === 2) { rankClass = 'rank-2'; badgeIcon = '🥈 2'; }
-        else if (pos === 3) { rankClass = 'rank-3'; badgeIcon = '🥉 3'; }
-
-        const dg = equipo.GolesAFavor - equipo.GolesEnContra;
-        const dgStr = dg > 0 ? `+${dg}` : `${dg}`;
-
-        tbody.innerHTML += `
-          <tr class="${rankClass}">
-            <td><span class="rank-badge ${pos <= 3 ? 'rank-badge-' + pos : ''}">${badgeIcon}</span></td>
-            <td style="text-align: left; font-weight: 700; color: #ffffff;">🛡️ ${equipo.Equipo}</td>
-            <td>${equipo.PJ}</td>
-            <td style="color: var(--verde-brillante);">${equipo.V}</td>
-            <td>${equipo.E}</td>
-            <td style="color: var(--rojo-vacio);">${equipo.D}</td>
-            <td>${equipo.GolesAFavor}</td>
-            <td>${equipo.GolesEnContra}</td>
-            <td style="font-weight: 700; color: ${dg >= 0 ? 'var(--verde-pasto)' : 'var(--rojo-vacio)'};">${dgStr}</td>
-            <td style="font-family: var(--font-display); font-size: 1.5rem; color: var(--oro-campeon);">${equipo.PTS}</td>
-          </tr>
-        `;
-      });
+      renderTabla(mockData, tbody);
     }
   </script>
 

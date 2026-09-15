@@ -1,28 +1,28 @@
 /* ==========================================================================
    SPORTADMIN - CLUB DEPORTIVO LEÓN SALTILLO
-   SOCCER THEME DESIGN SYSTEM (soccer-theme.css)
+   ULTRA-PRO ENGINE & DESIGN SYSTEM (soccer-theme.css)
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 :root {
-  /* Color Palette - Club León & Stadium Night */
-  --verde-estadio: #0b2914;
-  --verde-leon: #1b5e20;
-  --verde-pasto: #2ecc71;
+  /* Color Palette - Cyber Stadium & Club León */
+  --verde-estadio: #07150c;
+  --verde-leon: #0e3a17;
+  --verde-pasto: #10b981;
   --verde-brillante: #00e676;
-  --verde-glow: rgba(46, 204, 113, 0.4);
+  --verde-glow: rgba(0, 230, 118, 0.35);
   
-  --oro-campeon: #ffb300;
-  --oro-glow: rgba(255, 179, 0, 0.35);
+  --oro-campeon: #fbbf24;
+  --oro-glow: rgba(251, 191, 36, 0.4);
   --plata: #cbd5e1;
   --bronce: #d97706;
 
-  --negro-noche: #090d16;
-  --gris-estadio: #0f172a;
-  --card-bg: rgba(30, 41, 59, 0.88);
-  --card-border: rgba(255, 255, 255, 0.12);
-  --input-bg: rgba(15, 23, 42, 0.75);
+  --negro-noche: #060911;
+  --gris-estadio: #0b1120;
+  --card-bg: rgba(15, 23, 42, 0.85);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --input-bg: rgba(11, 17, 32, 0.8);
 
   --texto-principal: #f8fafc;
   --texto-secundario: #94a3b8;
@@ -38,12 +38,15 @@
 
   /* Elevation & Shadows */
   --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 20px 40px -5px rgba(0, 0, 0, 0.6), 0 0 25px var(--verde-glow);
-  --shadow-gold: 0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 20px var(--oro-glow);
+  --shadow-lg: 0 20px 40px -5px rgba(0, 0, 0, 0.7);
 
   /* Transitions */
   --tr-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  --tr-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --tr-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Dynamic Mouse Tracking Defaults */
+  --mouse-x: 50%;
+  --mouse-y: 50%;
 }
 
 /* --------------------------------------------------------------------------
@@ -61,25 +64,24 @@ html, body {
   color: var(--texto-principal);
   background-color: var(--negro-noche);
   background-image: 
-    radial-gradient(circle at 50% -20%, rgba(0, 230, 118, 0.15) 0%, transparent 60%),
-    radial-gradient(circle at 10% 40%, rgba(255, 179, 0, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(46, 204, 113, 0.08) 0%, transparent 40%),
-    repeating-linear-gradient(0deg, rgba(11, 41, 20, 0.95) 0px, rgba(11, 41, 20, 0.95) 60px, rgba(15, 54, 27, 0.95) 60px, rgba(15, 54, 27, 0.95) 120px);
+    radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(0, 230, 118, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(251, 191, 36, 0.05) 0%, transparent 35%),
+    repeating-linear-gradient(135deg, rgba(7, 21, 12, 0.98) 0px, rgba(7, 21, 12, 0.98) 40px, rgba(14, 58, 23, 0.95) 40px, rgba(14, 58, 23, 0.95) 80px);
   background-attachment: fixed;
   background-size: cover;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Subtle Pitch Field Overlay Lines */
+/* Stadium Pitch Cyber Lines */
 body::before {
   content: '';
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background-image: 
-    radial-gradient(circle at 50% 50%, transparent 20%, rgba(255, 255, 255, 0.03) 21%, transparent 22%),
-    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-  background-size: 100% 100%, 60px 100%;
+    radial-gradient(circle at 50% 50%, transparent 25%, rgba(255, 255, 255, 0.02) 26%, transparent 27%),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 100% 100%, 80px 100%;
   pointer-events: none;
   z-index: 0;
 }
@@ -92,98 +94,115 @@ a {
 
 a:hover {
   color: var(--verde-brillante);
-  text-shadow: 0 0 10px var(--verde-glow);
 }
 
 /* --------------------------------------------------------------------------
-   CONTAINER & LAYOUT
+   ASYMMETRIC STADIUM CARDS WITH GLOW TRACKING
    -------------------------------------------------------------------------- */
 .app-container {
   width: 100%;
-  max-width: 1240px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 30px 20px 60px;
   position: relative;
   z-index: 1;
 }
 
-.stadium-card {
+/* Asymmetric Chamfered Geometry (Clip Path) */
+.stadium-card-pro {
   background: var(--card-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--card-border);
-  border-top: 2px solid var(--verde-pasto);
-  border-radius: 20px;
-  box-shadow: var(--shadow-lg);
+  position: relative;
   overflow: hidden;
-  transition: var(--tr-smooth);
+  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+  box-shadow: var(--shadow-lg);
+  transition: transform var(--tr-smooth), box-shadow var(--tr-smooth);
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
-.stadium-card:hover {
-  border-top-color: var(--verde-brillante);
-  box-shadow: 0 25px 50px -10px rgba(0, 0, 0, 0.7), 0 0 30px var(--verde-glow);
+/* Mouse Following Spotlight Layer */
+.stadium-card-pro::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(
+    600px circle at var(--mouse-x) var(--mouse-y),
+    rgba(0, 230, 118, 0.15),
+    transparent 40%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.stadium-card-pro:hover::before {
+  opacity: 1;
+}
+
+/* Top Neon Accent Line */
+.stadium-card-pro::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--verde-brillante) 0%, var(--oro-campeon) 50%, transparent 100%);
+  z-index: 2;
 }
 
 /* --------------------------------------------------------------------------
-   STADIUM HEADER & TITLES
+   STADIUM HEADER & VECTOR BADGES
    -------------------------------------------------------------------------- */
-.stadium-header {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(9, 13, 22, 0.98) 100%);
-  padding: 24px 36px;
-  border-bottom: 2px solid rgba(46, 204, 113, 0.3);
+.stadium-header-pro {
+  background: linear-gradient(180deg, rgba(6, 9, 17, 0.95) 0%, rgba(11, 17, 32, 0.85) 100%);
+  padding: 26px 36px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   position: relative;
+  z-index: 2;
 }
 
-.stadium-header::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 120px;
-  height: 2px;
-  background: var(--oro-campeon);
-  box-shadow: 0 0 10px var(--oro-campeon);
-}
-
-.title-group {
+.title-group-pro {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 18px;
 }
 
-.badge-emblem {
-  width: 52px;
-  height: 52px;
-  background: linear-gradient(135deg, var(--verde-pasto) 0%, var(--verde-leon) 100%);
-  border-radius: 14px;
+.svg-emblem-wrapper {
+  width: 54px;
+  height: 54px;
+  background: linear-gradient(135deg, var(--verde-leon) 0%, var(--verde-estadio) 100%);
+  border: 1.5px solid var(--verde-brillante);
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.8rem;
-  box-shadow: 0 0 15px var(--verde-glow);
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: var(--verde-brillante);
+  box-shadow: 0 0 20px var(--verde-glow);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
 }
 
-.main-title {
+.main-title-pro {
   font-family: var(--font-display);
   font-size: 2.8rem;
   letter-spacing: 2px;
-  color: var(--texto-principal);
   line-height: 1;
   text-transform: uppercase;
-  background: linear-gradient(180deg, #ffffff 30%, #cbd5e1 100%);
+  background: linear-gradient(180deg, #ffffff 40%, #cbd5e1 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.subtitle {
+.subtitle-pro {
   font-family: var(--font-accent);
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--verde-pasto);
   letter-spacing: 2px;
@@ -191,102 +210,75 @@ a:hover {
 }
 
 /* --------------------------------------------------------------------------
-   BUTTONS & CONTROLS
+   BUTTONS & VECTOR CONTROLS
    -------------------------------------------------------------------------- */
-.btn-futbol {
+.btn-pro {
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: #090d16;
+  color: #060911;
   background: linear-gradient(135deg, var(--verde-pasto) 0%, var(--verde-brillante) 100%);
   border: none;
-  border-radius: 12px;
-  padding: 14px 28px;
+  padding: 12px 24px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
   box-shadow: 0 8px 20px -4px var(--verde-glow);
   transition: var(--tr-fast);
   position: relative;
-  overflow: hidden;
+  z-index: 2;
 }
 
-.btn-futbol::before {
-  content: '';
-  position: absolute;
-  top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-  transition: 0.5s;
-}
-
-.btn-futbol:hover::before {
-  left: 100%;
-}
-
-.btn-futbol:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 12px 25px -4px var(--verde-glow);
+.btn-pro:hover {
+  transform: translateY(-2px);
   background: linear-gradient(135deg, #34d399 0%, #00e676 100%);
+  box-shadow: 0 12px 25px -4px var(--verde-glow);
 }
 
-.btn-futbol:active {
-  transform: translateY(0) scale(0.98);
-}
-
-.btn-gold {
+.btn-pro-gold {
   background: linear-gradient(135deg, #fbbf24 0%, var(--oro-campeon) 100%);
-  color: #0f172a;
+  color: #0b1120;
   box-shadow: 0 8px 20px -4px var(--oro-glow);
 }
 
-.btn-gold:hover {
+.btn-pro-gold:hover {
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
   color: #ffffff;
-  box-shadow: 0 12px 25px -4px var(--oro-glow);
 }
 
-.btn-outline {
-  background: rgba(15, 23, 42, 0.6);
+.btn-pro-outline {
+  background: rgba(11, 17, 32, 0.8);
   color: var(--texto-principal);
-  border: 2px solid var(--verde-pasto);
+  border: 1px solid var(--verde-pasto);
   box-shadow: none;
 }
 
-.btn-outline:hover {
+.btn-pro-outline:hover {
   background: var(--verde-pasto);
   color: var(--negro-noche);
 }
 
-.btn-danger {
+.btn-pro-danger {
   background: linear-gradient(135deg, #f87171 0%, var(--rojo-vacio) 100%);
   color: #ffffff;
-  box-shadow: 0 8px 20px -4px var(--rojo-glow);
-}
-
-.btn-danger:hover {
-  background: #dc2626;
-}
-
-.btn-sm {
-  padding: 8px 16px;
-  font-size: 1.1rem;
-  border-radius: 8px;
 }
 
 /* --------------------------------------------------------------------------
    FORM CONTROLS
    -------------------------------------------------------------------------- */
-.form-group {
-  margin-bottom: 22px;
+.form-group-pro {
+  margin-bottom: 20px;
   position: relative;
 }
 
-.form-label {
-  display: block;
+.form-label-pro {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-family: var(--font-accent);
   font-size: 0.95rem;
   font-weight: 700;
@@ -296,169 +288,67 @@ a:hover {
   text-transform: uppercase;
 }
 
-.form-control {
+.form-control-pro {
   width: 100%;
   font-family: var(--font-body);
-  font-size: 1.05rem;
+  font-size: 1rem;
   color: var(--texto-principal);
   background-color: var(--input-bg);
-  border: 1.5px solid rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   padding: 14px 18px;
   outline: none;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
   transition: var(--tr-fast);
 }
 
-.form-control:focus {
-  border-color: var(--verde-pasto);
-  background-color: rgba(15, 23, 42, 0.95);
-  box-shadow: 0 0 0 4px var(--verde-glow);
-}
-
-.form-control::placeholder {
-  color: var(--texto-muted);
-}
-
-select.form-control {
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%232ecc71'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
-  background-size: 18px;
-  padding-right: 48px;
+.form-control-pro:focus {
+  border-color: var(--verde-brillante);
+  background-color: rgba(11, 17, 32, 0.95);
+  box-shadow: 0 0 0 3px var(--verde-glow);
 }
 
 /* --------------------------------------------------------------------------
-   TABLES & LEADERBOARD
+   STATUS BADGES & VECTOR PILLS
    -------------------------------------------------------------------------- */
-.table-responsive {
-  width: 100%;
-  overflow-x: auto;
-  border-radius: 14px;
-}
-
-.stadium-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 8px;
-  margin-top: 10px;
-}
-
-.stadium-table th {
-  font-family: var(--font-accent);
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--verde-pasto);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  padding: 14px 18px;
-  text-align: center;
-  background: rgba(15, 23, 42, 0.8);
-  border-bottom: 2px solid var(--verde-leon);
-}
-
-.stadium-table th:first-child { text-align: left; border-radius: 10px 0 0 10px; }
-.stadium-table th:last-child { border-radius: 0 10px 10px 0; }
-
-.stadium-table tbody tr {
-  background: rgba(15, 23, 42, 0.6);
-  transition: var(--tr-fast);
-}
-
-.stadium-table tbody tr:hover {
-  background: rgba(30, 41, 59, 0.95);
-  transform: scale(1.008);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-}
-
-.stadium-table td {
-  padding: 16px 18px;
-  font-size: 1.05rem;
-  text-align: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.stadium-table td:first-child {
-  text-align: left;
-  font-weight: 700;
-  border-left: 3px solid transparent;
-  border-radius: 12px 0 0 12px;
-}
-
-.stadium-table td:last-child {
-  border-radius: 0 12px 12px 0;
-}
-
-/* Rank Highlights */
-.rank-1 { border-left-color: var(--oro-campeon) !important; background: rgba(255, 179, 0, 0.08) !important; }
-.rank-2 { border-left-color: var(--plata) !important; }
-.rank-3 { border-left-color: var(--bronce) !important; }
-
-.rank-badge {
+.badge-pro {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  font-family: var(--font-display);
-  font-size: 1.2rem;
-  margin-right: 10px;
-}
-
-.rank-badge-1 { background: var(--oro-campeon); color: #000; box-shadow: 0 0 10px var(--oro-glow); }
-.rank-badge-2 { background: var(--plata); color: #000; }
-.rank-badge-3 { background: var(--bronce); color: #fff; }
-
-/* --------------------------------------------------------------------------
-   BADGES & PILLS
-   -------------------------------------------------------------------------- */
-.badge-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+  gap: 8px;
   padding: 6px 14px;
-  border-radius: 20px;
   font-family: var(--font-accent);
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
+  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
 }
 
-.badge-live {
-  background: rgba(0, 230, 118, 0.15);
+.badge-live-pro {
+  background: rgba(0, 230, 118, 0.12);
   color: var(--verde-brillante);
   border: 1px solid var(--verde-brillante);
 }
 
-.badge-live::before {
+.badge-live-pro::before {
   content: '';
   width: 8px; height: 8px;
   background: var(--verde-brillante);
   border-radius: 50%;
-  animation: pulse 1.5s infinite;
+  animation: pulseLive 1.5s infinite;
 }
 
-.badge-pending {
-  background: rgba(255, 179, 0, 0.15);
-  color: var(--oro-campeon);
-  border: 1px solid var(--oro-campeon);
-}
-
-@keyframes pulse {
+@keyframes pulseLive {
   0% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(1.3); }
+  50% { opacity: 0.3; transform: scale(1.3); }
   100% { opacity: 1; transform: scale(1); }
 }
 
 /* --------------------------------------------------------------------------
-   RESPONSIVE LAYOUTS
+   RESPONSIVE DESIGN
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
   .app-container { padding: 15px 10px; }
-  .stadium-header { padding: 18px 20px; text-align: center; justify-content: center; }
-  .main-title { font-size: 2.2rem; }
-  .btn-futbol { width: 100%; font-size: 1.2rem; }
+  .stadium-header-pro { padding: 20px; flex-direction: column; text-align: center; }
+  .main-title-pro { font-size: 2.2rem; }
+  .btn-pro { width: 100%; }
 }
